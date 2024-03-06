@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Chats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css" integrity="sha512-d0olNN35C6VLiulAobxYHZiXJmq+vl+BGIgAxQtD5+kqudro/xNMvv2yIHAciGHpExsIbKX3iLg+0B6d0k4+ZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="lato-light">
+    <h1 class="lato-bold logo">Chatterbox<h1>
+    <form method="GET" action="/chats/new">
+        <button class="new-chat">Create new chat</button>
+    </form>
+    <br>
+    <div class="allChats">
+    <% for(let chat of chats){ %>
+        <div class ="chat">
+            <p class="details">From : <%= chat.from %></p>
+            <div class = "msg-box">
+                <p class="msg"><%= chat.msge %></p>
+                <div class="btn">
+                <form method="GET" action="/chats/<%= chat._id %>/edit">
+                    <button class="editBtn">Edit</button>
+                </form>
+                <form method="POST" action="/chats/<%= chat._id %>?_method=DELETE">
+                    <button class="deleteBtn editBtn" onclick="return confirmDelete()">Delete</button>
+                </form>
+                <script>
+                    function confirmDelete(){
+                        let confirmed =  confirm("Are you sure you want to delete?");
+                        if(confirmed){
+                            document.getElementById('deleteBtn').submit();
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                </script>
+            </div>
+            </div>
+            <p class="details">Received by : <%= chat.to %></p>
+            <hr/>
+            <p class="details"><%= chat.created_at.toString().split(" ")[4] %></p>
+            <p class="details"><%= chat.created_at.toString().split(" ").slice(0,4).join("-") %></p>
+        </div>  
+        <br><br>
+    <% } %>
+</div>
+</body>
+</html>
+
